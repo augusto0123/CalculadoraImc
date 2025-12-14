@@ -47,6 +47,30 @@ const clearBtn = document.querySelector("#clear-btn");
 
 // funções
 
+function createTable(data){
+    data.forEach((item) => {
+        const div = document.createElement("div");
+        div.classList.add("table-data");
+
+        const classification = document.createElement("p");
+        classification.innerText = item.classification;
+
+        const info = document.createElement("p");
+        info.innerText = item.info;
+
+        const obesity = document.createElement("p");
+        obesity.innerText = item.obesity;
+
+        div.appendChild(classification);
+        div.appendChild(info);
+        div.appendChild(obesity);
+
+        imcTable.appendChild(div);
+    })
+}
+
 // inicialização
+
+createTable(data);
 
 // eventos
