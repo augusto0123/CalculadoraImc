@@ -45,8 +45,16 @@ const weightInput = document.querySelector("#weight");
 const calcBtn = document.querySelector("#calc-btn");
 const clearBtn = document.querySelector("#clear-btn");
 
+const calcContainer = document.querySelector("#calc-container");
+const resultContainer = document.querySelector("#result-container");
+
 const modalOverlay = document.querySelector("#modal-overlay");
 const closeModalBtn = document.querySelector("#close-modal");
+
+const imcNumber = document.querySelector("#imc-number span");
+const imcInfo = document.querySelector("#imc-info span");
+
+const backBtn = document.querySelector("#back-btn");
 
 // funções
 
@@ -83,8 +91,12 @@ function validDigits(text){
 
 function calcImc(weight, height){
   const imc = (weight / (height * height)).toFixed(1);
-
   return imc;
+}
+
+function showOrHideResults(){
+  calcContainer.classList.toggle("hide");
+  resultContainer.classList.toggle("hide");
 }
 
 // inicialização
@@ -122,7 +134,13 @@ calcBtn.addEventListener("click", (e) => {
     if(imc >= item.min && imc <= item.max){
       info = item.info;
     }
+  if (!info) return;
   });
 
   if(!info) return;
+
+  imcNumber.innerText = imc;
+  imcInfo.innerText = info;
+
+  showOrHideResults();
 });
