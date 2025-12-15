@@ -45,6 +45,9 @@ const weightInput = document.querySelector("#weight");
 const calcBtn = document.querySelector("#calc-btn");
 const clearBtn = document.querySelector("#clear-btn");
 
+const modalOverlay = document.querySelector("#modal-overlay");
+const closeModalBtn = document.querySelector("#close-modal");
+
 // funções
 
 function createTable(data){
@@ -78,6 +81,12 @@ function validDigits(text){
   return text.replace(/[^0-9,]/g, "");
 }
 
+function calcImc(weight, height){
+  const imc = (weight / (height * height)).toFixed(1);
+
+  return imc;
+}
+
 // inicialização
 
 createTable(data);
@@ -87,12 +96,33 @@ createTable(data);
 [heightInput, weightInput].forEach((el) => {
   el.addEventListener("input", (e) => {
     const updatedValue = validDigits(e.target.value);
+
     e.target.value = updatedValue;
-  })
-})
+  });
+});
 
 clearBtn.addEventListener("click", (e) => {
-
   e.preventDefault();
   cleanInputs();
 })
+
+calcBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const weight = +weightInput.value.replace(",", ".");
+  const height = +heightInput.value.replace(",", ".");
+
+  if(!weight || !height) return;
+
+  const imc = calcImc(weight, height);
+
+  let info;
+
+  data.forEach((item) => {
+    if(imc >= item.min && imc <= item.max){
+      info = item.info;
+    }
+  });
+
+  if(!info) return;
+});
